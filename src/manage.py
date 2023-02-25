@@ -1,12 +1,21 @@
+import typing
+
+
 class Manage:
     def __init__(self, joined: int):
         self.joined = joined
 
-    roles = {
-        'manager': 0,
-        'leader': 1,
-        'staff': 2
-    }
+    role_numbers = [
+        0,
+        1,
+        2
+    ]
+
+    role_names = [
+        'manager',
+        'leader',
+        'staff'
+    ]
 
     allowance = [
         1.3,
@@ -26,48 +35,33 @@ class Manage:
             @hourly_salary: 時給
             @is_include_allowance: 役職手当の有無
         '''
-        def calc(_n: str):
+        def yearly_calc(_n: str):
             '''
             Args:
                 @_n: role number
             '''
-            # ? manager ----------------------------------------------------
-            try:
-                if role == self.roles[_n]:
-                    def auto_calc(days: int, is_include: bool):
-                        if is_include:
-                            return (hourly_salary * days) + (hourly_salary * self.allowance[_n])
-                        else:
-                            return hourly_salary * days
+            if role == self.role_numbers[_n]:
 
-                    # * 役職手当込み
-                    if is_include_allowance:
-                        return auto_calc(30, True)
-                    # * ウィズアウト役職手当
+                def auto_calc(days: int, is_include: bool):
+                    if is_include:
+                        return (hourly_salary * 8 * days) + (hourly_salary * self.allowance[_n])
                     else:
-                        return auto_calc(365, False)
-            except KeyError:
-                days = self.joined
-                if role == self.roles[0]:
-                    if not is_include_allowance:
-                        return hourly_salary*8*days
-                    else:
-                        return (hourly_salary*8*days) + (hourly_salary*self.allowance[0])
+                        return hourly_salary * 8 * days
 
-       # calc_salaries = []
-        # for i in range(3):
-        # calc_salaries.append(calc(i))
-        # return sum(calc_salaries)
-        return calc(role)
+                if is_include_allowance:
+                    return auto_calc(30, True)
+                else:
+                    return auto_calc(365, False)
+        return yearly_calc(role)
 
 
 if __name__ == '__main__':
     from random import randint
-    # emp-1
-    randomize = Manage(randint(128, 512))
-    randomize_calc = randomize.calc_fiction(
-        role=Manage.roles['manager'],
+
+    high_octane = Manage(randint(128, 512))
+    octane = high_octane.calc_fiction(
+        role=Manage.role_numbers[0],
         hourly_salary=randint(1200, 5000),
         is_include_allowance=True
     )
-    print(randomize_calc)
+    print(f'yearly: {octane} jpy')
