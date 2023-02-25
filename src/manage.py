@@ -1,7 +1,4 @@
-from typing import Any, NoReturn
-
-
-class Employee:
+class Manage:
     def __init__(self, joined: int):
         self.joined = joined
 
@@ -67,9 +64,9 @@ class Employee:
 if __name__ == '__main__':
     from random import randint
     # emp-1
-    randomize = Employee(randint(128, 512))
+    randomize = Manage(randint(128, 512))
     randomize_calc = randomize.calc_fiction(
-        role=Employee.roles['manager'],
+        role=Manage.roles['manager'],
         hourly_salary=randint(1200, 5000),
         is_include_allowance=True
     )
