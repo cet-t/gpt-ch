@@ -41,7 +41,6 @@ class Manage:
                 @_n: role number
             '''
             if role == self.role_numbers[_n]:
-
                 def auto_calc(days: int, is_include: bool):
                     if is_include:
                         return (hourly_salary * 8 * days) + (hourly_salary * self.allowance[_n])
@@ -61,7 +60,7 @@ if __name__ == '__main__':
     high_octane = Manage(randint(128, 512))
     octane = high_octane.calc_fiction(
         role=Manage.role_numbers[0],
-        hourly_salary=randint(1200, 5000),
+        hourly_salary=1200,
         is_include_allowance=True
     )
     print(f'yearly: {octane} jpy')
