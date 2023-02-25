@@ -5,11 +5,11 @@ class Employee:
     def __init__(self, joined: int):
         self.joined = joined
 
-    roles = [
-        'manager',
-        'leader',
-        'staff'
-    ]
+    roles = {
+        'manager': 1,
+        'leader': 2,
+        'staff': 3
+    }
 
     allowance = [
         1.3,
@@ -19,43 +19,79 @@ class Employee:
 
     def calc_fiction(
         self,
-        role: Any,
+        role: str,
         hourly_salary: int,
-        sum_type: int,
         is_include_allowance: bool = True
     ):
         '''
         Args:
             @role: 役職
             @hourly_salary: 時給
-            @sum_type: 0: 月給, 1: 年給
             @is_include_allowance: 役職手当の有無
         '''
-        def calc(_role: int):
-            if role == self.roles[_role] | _role:
+        def calc(_n: int):
+            '''
+            Args:
+                @_n: role number
+            '''
+            # manager ----------------------------------------------------
+            if role == self.roles[_n]:
                 def auto_calc(days: int, is_include: bool):
                     if is_include:
-                        return hourly_salary * days + hourly_salary * _role
+                        return (hourly_salary * days) + (hourly_salary * self.allowance[_n])
                     else:
                         return hourly_salary * days
-                if is_include_allowance:  # 役職手当込み
-                    if sum_type == 0:  # 月収
-                        return auto_calc(30, True)
-                    elif sum_type == 1:  # 年収
-                        return auto_calc(365, True)
-                else:  # ウィズアウト役職手当
-                    if sum_type == 0:
-                        return auto_calc(30, False)
-                    elif sum_type == 1:
-                        return auto_calc(365, False)
-        calc_salaries = []
-        for i in range(3):
-            calc_salaries.append(calc(i))
-        return sum(calc_salaries)
+
+                # * 役職手当込み
+                if is_include_allowance:
+                    return auto_calc(30, True)
+                # * ウィズアウト役職手当
+                else:
+                    return auto_calc(365, False)
+
+            # # leader ----------------------------------------------------
+            # if role == self.roles[1]:
+            #     def auto_calc(days: int, is_include: bool):
+            #         if is_include:
+            #             return hourly_salary * days + hourly_salary * _role
+            #         else:
+            #             return hourly_salary * days
+
+            #     # * 役職手当込み
+            #     if is_include_allowance:
+            #         return auto_calc(30, True)
+            #     # * ウィズアウト役職手当
+            #     else:
+            #         return auto_calc(365, False)
+
+            # # staff ----------------------------------------------------
+            # if role == self.roles[3]:
+            #     def auto_calc(days: int, is_include: bool):
+            #         if is_include:
+            #             return hourly_salary * days + hourly_salary * _role
+            #         else:
+            #             return hourly_salary * days
+
+            #     # * 役職手当込み
+            #     if is_include_allowance:
+            #         return auto_calc(30, True)
+            #     # * ウィズアウト役職手当
+            #     else:
+            #         return auto_calc(365, False)
+        # calc_salaries = []
+        # for i in range(3):
+        # calc_salaries.append(calc(i))
+        # return sum(calc_salaries)
+        return calc(role)
 
 
 if __name__ == '__main__':
+    from random import randint
     # emp-1
-    tadokoro = Employee(334)
-    tadokoro_calc = tadokoro.calc_fiction(0, 3500, 1, True)
-    print(tadokoro_calc)
+    randomize = Employee(randint(128, 512))
+    randomize_calc = randomize.calc_fiction(
+        role=Employee.roles['manager'],
+        hourly_salary=randint(1200, 5000),
+        is_include_allowance=True
+    )
+    print(randomize_calc)
