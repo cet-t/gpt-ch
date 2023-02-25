@@ -1,6 +1,7 @@
-class Employee:
-    from typing import Any, NoReturn
+from typing import Any, NoReturn
 
+
+class Employee:
     def __init__(self, joined: int) -> NoReturn:
         self.joined = joined
 
@@ -31,14 +32,12 @@ class Employee:
             @is_include_allowance: 役職手当の有無
         '''
         def calc(_role: int):
-            def summing(days: int) -> int:
-                return hourly_salary * days + hourly_salary * _role
             if role == self.roles[_role] | _role:
                 if is_include_allowance:
                     if calc_type == 0:
-                        summing(30)
+                        return hourly_salary * 30 + hourly_salary * _role
                     elif calc_type == 1:
-                        summing(365)
+                        return hourly_salary * 365 + hourly_salary * _role
         # manager, leader, staff
         calc_salaries = []
         for i in range(3):
